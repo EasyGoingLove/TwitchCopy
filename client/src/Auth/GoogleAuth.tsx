@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { signIn, signOut } from "../actions";
 
 declare global {
   interface Window {
@@ -10,7 +12,13 @@ interface IState {
   isSignedIn: null;
 }
 
-class GoogleAuth extends React.Component {
+type MyProps = {
+  signIn: () => void;
+  signOut: () => void;
+};
+type MyState = {};
+
+class GoogleAuth extends React.Component<MyProps, MyState> {
   state: IState = { isSignedIn: null };
   auth: any;
   clientId: string =
@@ -31,14 +39,36 @@ class GoogleAuth extends React.Component {
     this.setState({ isSignedIn: this.auth.isSignedIn.get() });
   };
 
+  onSignIn = (isSignedIn: any) => {
+    if (isSignedIn) {
+      this.props.signIn();
+    } else {
+      this.props.signOut();
+    }
+  };
+
+  onSignOut = () => {
+    this.auth.signOut();
+  };
+
   renderAuthBtn() {
     const signState = this.state.isSignedIn;
     if (signState === null) {
-      return <div>Idk if signed in </div>;
+      return null;
     } else if (signState) {
-      return <div>Signed In </div>;
+      return (
+        <button className="ui red google button" onClick={this.onSignOut}>
+          <i className="google icon" />
+          Sign Out
+        </button>
+      );
     } else {
-      return <div>Not signed in </div>;
+      return (
+        <button className="ui red google button" onClick={this.onSignIn}>
+          <i className="google icon" />
+          Sign In
+        </button>
+      );
     }
   }
 
@@ -46,4 +76,5 @@ class GoogleAuth extends React.Component {
     return <div>{this.renderAuthBtn()}</div>;
   }
 }
-export default GoogleAuth;
+
+export default connect(null, { signIn, signOut })(GoogleAuth);
