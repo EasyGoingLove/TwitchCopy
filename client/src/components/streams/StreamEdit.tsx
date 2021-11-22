@@ -1,6 +1,6 @@
 import React from "react";
 
-const StreamEdit = () => {
+const StreamEdit: () => JSX.Element = () => {
     return <div>StreamEdit</div>
 };
 export default StreamEdit;

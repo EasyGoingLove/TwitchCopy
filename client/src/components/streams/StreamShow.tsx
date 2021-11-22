@@ -1,6 +1,6 @@
 import React from "react";
 
-const StreamShow = () => {
+const StreamShow: () => JSX.Element = () => {
     return <div>StreamShow</div>
 };
 export default StreamShow;
