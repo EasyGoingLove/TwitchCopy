@@ -1,5 +1,6 @@
-import { combineReducers } from "redux"
+import { combineReducers } from "redux";
+import {signInOut} from './authReducer';
 
 export default combineReducers({
-    smt:()=>'s'
+    auth:signInOut
 });

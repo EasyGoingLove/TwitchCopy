@@ -2,24 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 
-declare global {
-  interface Window {
-    gapi: any;
-  }
-}
 
-interface IState {
-  isSignedIn: null;
-}
 
 type MyProps = {
-  signIn: () => void;
+  signIn: (fnc?: number) => void;
   signOut: () => void;
+  isSignedIn: any;
 };
 type MyState = {};
 
 class GoogleAuth extends React.Component<MyProps, MyState> {
-  state: IState = { isSignedIn: null };
   auth: any;
   clientId: string =
     "928699538344-41nqo7be7bprunlnvkdgo6k4acujcf0a.apps.googleusercontent.com";
@@ -30,29 +22,29 @@ class GoogleAuth extends React.Component<MyProps, MyState> {
         .init({ clientId: this.clientId, scope: "email" })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
-          this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+          this.onAuthChange(this.auth.isSignedIn.get());
           this.auth.isSignedIn.listen(this.onAuthChange);
         });
     });
   }
-  onAuthChange = () => {
-    this.setState({ isSignedIn: this.auth.isSignedIn.get() });
-  };
-
-  onSignIn = (isSignedIn: any) => {
+  onAuthChange = (isSignedIn: any) => {
     if (isSignedIn) {
-      this.props.signIn();
+      this.props.signIn(this.auth.currentUser.get().getId()!);
     } else {
       this.props.signOut();
     }
   };
 
+  onSignIn = () => {
+    this.props.signIn();
+  };
+
   onSignOut = () => {
-    this.auth.signOut();
+    this.props.signOut();
   };
 
   renderAuthBtn() {
-    const signState = this.state.isSignedIn;
+    const signState = this.props.isSignedIn;
     if (signState === null) {
       return null;
     } else if (signState) {
@@ -77,4 +69,8 @@ class GoogleAuth extends React.Component<MyProps, MyState> {
   }
 }
 
-export default connect(null, { signIn, signOut })(GoogleAuth);
+const mapStateToProps = (state: any) => {
+  return { isSignedIn: state.auth.isSignedIn };
+};
+
+export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth);
