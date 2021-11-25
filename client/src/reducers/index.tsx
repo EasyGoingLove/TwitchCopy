@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import {signInOut} from './authReducer';
+import { reducer as formReducer } from "redux-form";
+import { signInOut } from "./authReducer";
 
 export default combineReducers({
-    auth:signInOut
+  auth: signInOut,
+  form: formReducer,
 });

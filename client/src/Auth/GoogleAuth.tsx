@@ -2,8 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../actions";
 
-
-
 type MyProps = {
   signIn: (fnc?: number) => void;
   signOut: () => void;
@@ -29,18 +27,18 @@ class GoogleAuth extends React.Component<MyProps, MyState> {
   }
   onAuthChange = (isSignedIn: any) => {
     if (isSignedIn) {
-      this.props.signIn(this.auth.currentUser.get().getId()!);
+      this.props.signIn(this.auth.currentUser.get().getId());
     } else {
       this.props.signOut();
     }
   };
 
   onSignIn = () => {
-    this.props.signIn();
+    this.auth.signIn();
   };
 
   onSignOut = () => {
-    this.props.signOut();
+    this.auth.signOut();
   };
 
   renderAuthBtn() {
