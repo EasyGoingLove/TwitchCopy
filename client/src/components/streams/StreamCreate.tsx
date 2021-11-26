@@ -1,35 +1,13 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import {connect} from 'react-redux';
-import {createStream} from '../../actions';
+import { connect } from "react-redux";
+import { createStream } from "../../actions";
 
 type JsxFnc = (props?: any) => JSX.Element;
 type SubmitFnc = (formValues: { title: string; description: string }) => any;
 type ErrorFnc = (properties: { error: string; touched: boolean }) => void;
 
 const StreamCreate: JsxFnc = (props) => {
-
-  const renderError: ErrorFnc = ({ error, touched }) => {
-    if (touched && error) {
-      return (
-        <div className="ui error message">
-          <div className="header">{error}</div>
-        </div>
-      );
-    }
-  };
-
-  const rederInput: JsxFnc = ({ input, label, meta }) => {
-    const classField = `ui field ${meta.error && meta.touched ? "error" : ""}`;
-    return (
-      <div className={classField}>
-        <label>{label}</label>
-        <input {...input} autoComplete="off" />
-        {renderError(meta)}
-      </div>
-    );
-  };
-
   const onSubmit: SubmitFnc = (formValues) => {
     props.createStream(formValues);
   };
@@ -62,9 +40,30 @@ const validate: SubmitFnc = (formValues) => {
   return errors;
 };
 
+const renderError: ErrorFnc = ({ error, touched }) => {
+  if (touched && error) {
+    return (
+      <div className="ui error message">
+        <div className="header">{error}</div>
+      </div>
+    );
+  }
+};
+
+const rederInput: JsxFnc = ({ input, label, meta }) => {
+  const classField = `ui field ${meta.error && meta.touched ? "error" : ""}`;
+  return (
+    <div className={classField}>
+      <label>{label}</label>
+      <input {...input} autoComplete="off" />
+      {renderError(meta)}
+    </div>
+  );
+};
+
 const formWrapped = reduxForm({
   form: "streamCreate",
   validate: validate,
 })(StreamCreate);
 
-export default connect(null,{createStream})(formWrapped);
+export default connect(null, { createStream })(formWrapped);

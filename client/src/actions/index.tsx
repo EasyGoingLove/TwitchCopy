@@ -48,5 +48,5 @@ export const editStream: ActionFnc =
 
 export const deleteStream: ActionFnc = (id) => async (dispatch: any) => {
   await http.delete(`/streams/${id}`);
-  dispatch({ type: FETCH_STEAM, payload: id });
+  dispatch({ type: DELETE_STREAM, payload: id });
 };
