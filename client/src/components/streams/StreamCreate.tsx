@@ -1,5 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import {connect} from 'react-redux';
+import {createStream} from '../../actions';
 
 type JsxFnc = (props?: any) => JSX.Element;
 type SubmitFnc = (formValues: { title: string; description: string }) => any;
@@ -29,9 +31,9 @@ const StreamCreate: JsxFnc = (props) => {
   };
 
   const onSubmit: SubmitFnc = (formValues) => {
-    console.log(formValues);
+    props.createStream(formValues);
   };
-  
+
   return (
     <div className="streamCr-div">
       <form onSubmit={props.handleSubmit(onSubmit)} className="ui form error">
@@ -60,7 +62,9 @@ const validate: SubmitFnc = (formValues) => {
   return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: "streamCreate",
   validate: validate,
 })(StreamCreate);
+
+export default connect(null,{createStream})(formWrapped);
