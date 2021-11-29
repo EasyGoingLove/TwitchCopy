@@ -28,8 +28,6 @@ export const signOut: ActionFnc = () => {
 export const createStream: ActionCreateFnc =
   (formValues) => async (dispatch: any, getState: any) => {
     const { userId } = getState().auth;
-    console.log({...formValues,userId}, {formValues});
-    
     const response = await http.post("/streams", {...formValues,userId});
     dispatch({ type: CREATE_STREAM, payload: response.data });
   };
