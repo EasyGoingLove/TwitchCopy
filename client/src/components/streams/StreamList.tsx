@@ -3,7 +3,12 @@ import { connect } from "react-redux";
 import { fetchStreams } from "../../actions";
 
 type JsxFnc = (props: any) => JSX.Element;
-type Stream = { id: number; title: string; description: string };
+type Stream = {
+  id: number;
+  title: string;
+  description: string;
+  userId: string;
+};
 
 const StreamList: JsxFnc = (props) => {
   useEffect(() => {
@@ -19,10 +24,22 @@ const StreamList: JsxFnc = (props) => {
   );
 };
 
+const renderAdmin = (stream: Stream, props: any) => {
+  if (stream.userId === props.userId) {
+    return (
+      <div className="right floated content">
+        <button className="ui button primary">Edit</button>
+        <button className="ui button negative">Delete</button>
+      </div>
+    );
+  }
+};
+
 const renderList = (props: { streams: Stream[] }) => {
   return props.streams.map((stream) => {
     return (
       <div className="item" key={stream.id}>
+        {renderAdmin(stream, props)}
         <i className="large middle aligned icon camera"></i>
         <div className="content">
           {stream.title}
@@ -33,6 +50,6 @@ const renderList = (props: { streams: Stream[] }) => {
   });
 };
 const mapStateToProps = (state: any) => {
-  return { streams: Object.values(state.streams) };
+  return { streams: Object.values(state.streams), userId: state.auth.userId };
 };
 export default connect(mapStateToProps, { fetchStreams })(StreamList);

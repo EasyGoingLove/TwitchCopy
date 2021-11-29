@@ -1,26 +1,16 @@
 {
   "streams": [
     {
-      "title": "ssdasda",
-      "description": "aasdasda",
+      "title": "xxxxxx",
+      "description": "xxxxxxx",
+      "userId": "109336597669095486153",
       "id": 1
     },
     {
-      "title": "ssdasda",
-      "description": "aasdasdah",
+      "title": "bbbbbbbbb",
+      "description": "aaaaaa",
+      "userId": "112702996950897192936",
       "id": 2
-    },
-    {
-      "title": "xzxzc",
-      "description": "zxczxczx",
-      "userId": "112702996950897192936",
-      "id": 6
-    },
-    {
-      "title": "Test",
-      "description": "Test",
-      "userId": "112702996950897192936",
-      "id": 7
     }
   ]
 }
