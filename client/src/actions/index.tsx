@@ -10,6 +10,7 @@ import {
 } from "./types";
 
 type ActionFnc = (id?: number, update?: any) => void;
+type ActionCreateFnc = (update:object) => void;
 
 export const signIn: ActionFnc = (userId) => {
   return {
@@ -24,9 +25,12 @@ export const signOut: ActionFnc = () => {
   };
 };
 
-export const createStream: ActionFnc =
-  (formValues) => async (dispatch: any) => {
-    const response = await http.post("/streams", formValues);
+export const createStream: ActionCreateFnc =
+  (formValues) => async (dispatch: any, getState: any) => {
+    const { userId } = getState().auth;
+    console.log({...formValues,userId}, {formValues});
+    
+    const response = await http.post("/streams", {...formValues,userId});
     dispatch({ type: CREATE_STREAM, payload: response.data });
   };
 

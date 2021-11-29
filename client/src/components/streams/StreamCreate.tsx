@@ -9,6 +9,8 @@ type ErrorFnc = (properties: { error: string; touched: boolean }) => void;
 
 const StreamCreate: JsxFnc = (props) => {
   const onSubmit: SubmitFnc = (formValues) => {
+    console.log(formValues, 'in component');
+    
     props.createStream(formValues);
   };
 
@@ -63,7 +65,7 @@ const rederInput: JsxFnc = ({ input, label, meta }) => {
 
 const formWrapped = reduxForm({
   form: "streamCreate",
-  validate: validate,
+  validate
 })(StreamCreate);
 
 export default connect(null, { createStream })(formWrapped);
